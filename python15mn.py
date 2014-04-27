@@ -4,7 +4,7 @@
 ################
 # Introduction #
 ################
-# This is an introduction to python3.4 in 10 minutes inspired by the one from
+# This is an introduction to python3.4 in 15 minutes inspired by the one from
 # http://www.stavros.io/tutorials/python/
 #
 # Python is a mature, widely used language in the opensource world, praised
