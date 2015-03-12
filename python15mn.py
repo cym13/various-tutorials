@@ -205,7 +205,7 @@ while rangelist[1] == 1:
 # argument is assigned a value. Functions can return many values by using a
 # tuple.
 # Lambda functions are anonymous functions that can be useful in a
-# functionnal style. Parameters are passed by reference but immutable types
+# functional style. Parameters are passed by reference but immutable types
 # (tuples, int, strings, etc) *cannot be changed*. This is because only the
 # memory location of the item is passed, and binding another object to a
 # variable discards the old one, so immutale types are replaced.
@@ -228,7 +228,7 @@ print(circle(1))
 def advanced(a_list, an_int=2):
     a_list.append("New item")
     an_int = 4
-    return a_list, an_int, a_string
+    return a_list, an_int
 
 my_list = [3, 4]
 my_int = 10
