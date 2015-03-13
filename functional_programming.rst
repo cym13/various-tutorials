@@ -35,7 +35,7 @@ and it renders very well the troubled relation that we have with functions),
 D (because it's a good language that has many possibilities such as
 restricting yourself to using pure functions and immutable data).
 
-As always when I hesitate, I'll go with python. "Oh man, python is not
+As always when I hesitate, I'll go with python3. "Oh man, python is not
 explicitely typed, is as mutable as one can be, lacks most common
 functional functions and Guido doesn't like functional programming at all!"
 
@@ -163,7 +163,7 @@ portion of code and return a value or not.
 What we call "pure function" (which will be only "function" for the rest of this
 article) is the same thing as a function in mathematics: it always returns a
 value, it does nothing outside its scope and for a given argument is will
-always return the same value.
+always return the same value. Also a pure function can only call pure functions.
 
 Actually, most of those properties are consequences of our choice of
 immutability: what would a function that does not return a value do if it
@@ -401,10 +401,10 @@ discuss later:
     from functools import reduce
 
     def chain(*functions):
-        return reduce(lambda f,g: (lambda x: g(f(x))), functions)
+        return reduce(lambda f,g: (lambda *x: g(f(*x))), functions)
 
-This function acts like the pipe "|" of unix shells, it chains function and
-returns a function that combines the others:
+While not perfect, this function acts like the pipe "|" of unix shells, it
+chains function and returns a function that combines the others:
 
 .. code:: python
 
@@ -432,27 +432,386 @@ What I mean by that is that we are composing functions with functions... so
 the resulting functions can also be composed to get more functions! And this
 costs nothing.
 
+It is often useful to prepare part of the arguments of a function. One way to
+do it is:
+
+.. code:: python
+
+    # Preparing arguments in map
+    double_all = lambda lst: map(double, lst)
+
+    double_all([2, 3, 4])  ->  [4, 6, 8]
+
+This may work for little examples, but you may prefer using a partial:
+
+.. code:: python
+
+    from functools import partial
+
+    double_all = partial(map, double)
+
+    double_all([2, 3, 4])  ->  [4, 6, 8]
+
+Another way to compose things is by wrapping them together:
+
+.. code:: python
+
+    def sandwich(food):
+        return lambda : list("bread", *food(), "bread")
+
+    def cheese(food):
+        return lambda : list("cheese", *food(), "cheese")
+
+    # Let's wrap things together
+    def ham():
+        _ham = lambda : ["ham"]
+        return sandwich(cheese(_ham()))
+
+    # The same thing using python's decorator syntax
+    @sandwich
+    @cheese
+    def ham():
+        return ["ham"]
+
+    ham() == ["bread", "cheese", "ham", "cheese", "bread"]
+
 Easier parallelisation!
 -----------------------
 
-Easier streams and laziness!
+There are thee generic functions that are interesting enough to be considered
+a key point of functional programming: map, filter, reduce.
+
+Map is the functional compositor by excellence, it takes a function and a
+list of elements and returns the list of the evaluations of the function on
+this elements.
+
+Long story short:
+
+.. code:: python
+
+    map(double, [1, 2, 3, 4, 5]) == [2, 4, 6, 8, 10]
+
+This seems pretty simple, why would it be a key point? Well map is a perfect
+example of how things are handled in functional programming. It is a pure
+function that takes a pure function and abstract an implementation to focus
+only on the transformation of data. You don't know how map is implemented,
+and you most surely wouldn't care less, but it expresses a solution more
+beautiful than a for loop.
+
+.. code:: python
+
+    tmp_lst = []
+    for each in [1, 2, 3, 4, 5]:
+        tmp_lst.append(double(each))
+    return tmp_lst
+
+That way of writing things hides the real meaning of the action: applying
+double to an array.
+
+Another function with the same properties of map is filter. Filter does what
+it says it does, it takes a function and a list and filters the list
+returning only the elements that corresponds to a positive return value of the
+function passed as argument.
+
+.. code:: python
+
+    def is_even(n):
+        return True if n % 2 == 0 else False
+
+    filter(is_even, [1, 2, 3, 4, 5]) == [2, 4]
+
+The last one is reduce that we already used once. Reduce takes a function and
+a list of arguments and combines the arguments two by two with the function to
+produce a single value as result. It operates from right to left.
+
+.. code:: python
+
+    from functools imports reduce
+
+    reduce(sum, [1, 2, 3, 4, 5]) == reduce(sum, [3, 3, 4, 5])
+                                 == reduce(sum, [6, 4, 5])
+                                 == reduce(sum, [10, 5])
+                                 == reduce(sum, [15])
+                                 == 15
+
+Other programming languages have different names for these functions, reduce
+is often called foldl or fold-left in what case it comes with its counterpart
+foldr or fold-right. This is the same as reduce but it operates from left to
+right.
+
+Together these functions describe a very common design pattern to manipulate
+data: filter-map-reduce
+
+We have a bunch of data. First let's get only the one that we find
+interesting, then format these one to get new data and reduce it to a single
+value (by averaging or anything).
+
+A shell example of filter-map-reduce could be:
+
+.. code:: shell
+
+    grep filter file | tr '"' '\n' | grep -c reduce
+
+While interesting and expressive by themselves, this functions takes all the
+more importance when dealing with parallelisation.
+
+Remember that we are only using functions that have no state whatsoever, so
+running them concurrently is the easiest thing of the world! For example, in
+the programming language Erlang, each function is run concurrently by default
+so any function can be replaced at runtime without any second-thought.
+
+Furthermore map and filter propose transformations that are very easy to run
+in parallel over the whole array, that's why filter-map-reduce became a
+standard paradigm of big data, it could be run massively in parallel even on
+different computers and still reduced to a single result at the end.
+
+To do that in python you want to see the map method of multiprocessing.Pool
+and its variants which implements a concurrent map.
+
+This popular construct is present in python natively through list
+comprehensions:
+
+.. code:: python
+
+    inc     = lambda n: n+1
+    is_even = lambda n: True if n%2==0 else False
+
+    transform = chain(partial(filter, is_even),
+                      partial(map,    inc),
+                      partial(reduce, sum))
+
+    transform(range(5)) == 8
+
+    sum(inc(n) for n in range(5) if is_even(n)) == 8
+
+Easier laziness and streams!
 ----------------------------
 
-Easier unit-testing!
+Another cool thing about pure functions is that each call is independant.
+Take the map example for example, the order in which the elements are
+computed isn't important as one value never depends on another one.
+
+Therefore it is easy to be lazy as we know that we can compute that value at
+any time.
+
+Also, as the output of a pure function is always the same for a given input
+one can cache results instead of recomputing it each time. This is called
+memoization and is completely impossible to do safely with non-pure functions.
+
+In python, this is done with the functools.lru_cache decorator:
+
+.. code:: python
+
+    from functools import lru_cache
+
+    @lru_cache()
+    def fib(n):
+        if n<2:
+            return n
+        return fib(n-1) + fib(n-2)
+
+This is a great way to increase performance.
+
+However, there is one that seems impossible with our pure function: dealing
+with an infinite list of numbers.
+
+The stream paradigm is well represented in python through generators:
+
+.. code:: python
+
+    def numbers():
+        i = -1
+        while True:
+            i += 1
+            yield i
+
+    for n in numbers():
+        print(2*n)
+
+    # Prints the list of all even numbers without stopping
+
+This can't be achieved without introducing mutability. However one way to
+control its complexity is to use a closure to restrict the scope of the
+mutable section:
+
+.. code:: python
+
+    def gen_numbers():
+        i = -1
+        def numbers():    # This is a closure, even if i was defined outside
+            i += 1        # the scope of 'numbers' it is still bound to its
+            return i      # instance and no other.
+        return numbers
+
+    print_even = chain(gen_number(),
+                       double,
+                       print)
+
+    def print_even_numbers():
+        print_even()
+        return print_even_numbers()
+
+Ok, there is no reason in python not to use classic generators, but I think
+that this was a neat example to demonstrate closures. The way such things are
+treated in programming languages with no side effect like haskell is through
+monads which are a really cool thing but are too wide a subject to fit in
+such an introduction. Just remember that they are use to rescrict unpure
+things within known scope without allowing them to mix with pure stuff.
+
+Easier unit testing!
 --------------------
+
+Unit testing is great. It forbids regressions and allow many programmers to
+define interfaces and then work separately while keeping the whole code
+coherent. But is not something that is as wildely used as one could think.
+And if your project is using unit testing, answer honestly this question: is
+there not a single function that you decided not to write tests for?
+Why is that ?  Sure, programmers are lazy animals and don't like writting
+dead code but they also are rational so why aren't they doing more unit
+testing?
+
+My opinion is that most of the time is is just too hard to do. Unit testing
+object oriented methods and stateful objects is only possible by mocking the
+anticipated environment in which the object will be called. Moreover theses
+programming styles encourages long and complex functions which result in many
+corner cases.
+
+By encouraging short, independant functions functional programming is well
+adapted to unit testing which pushes code safety even further.
+
+By using pure functions a whole class of errors just disappear. It's not that
+their complexity is hidden behind the curtains, it was effectively reduced.
 
 Readibility for the win!
 ------------------------
 
+We slightly shifted on this subject before but let's say it straight:
+functional programming is by essence a paradigm that encourages readability
+(and that should talk to any python developper).
+
+By focusing more on the goal than on the way to achieve it it often become
+declarative and very expressive.
+
+Take the Fibonacci example:
+
+.. code:: python
+
+    # Imperative style
+    def fibonacci(n):
+        tmp_1  = 0
+        tmp_2  = 1
+
+        if n == 0:
+            return 0
+
+        if n == 1:
+            return 1
+
+        for _ in range(n):
+            result = buf_1 + buf_2
+            buf_2  = buf_1
+            buf_1  = result
+
+        return result
+
+
+    # Without tail recursion
+    def fibonacci(n):
+        if n == 0:
+            return 0
+        if n == 1
+            return 1
+        return fibonacci(n-1) + fibonacci(n-2)
+
+
+    # With tail recursion
+    def fibonacci(n, a=0, b=1):
+        if n == 0:
+            return a
+        return fibonacci(n-1, b, a+b)
+
+Not only is the code more concise in functional style, it is also blazzingly
+similar to the mathematic definition of the fibonacci sequence. We're not
+dealing with the problem of temporary values at all, we just declare what we
+want it's value to be in each case.
+
+Allow me to take an example from the excellent post `Why Every Language Needs
+Its Underscore
+<http://hackflow.com/blog/2014/06/22/why-every-language-needs-its-underscore/>`_
+from Alexander Schepanovski:
+
+.. code:: python
+
+    # Checks if a sequence is ascending
+
+    prev = None
+    for x in seq:
+        if prev is not None and x <= prev:
+            is_ascending = False
+            break
+        prev = x
+    else:
+        is_ascending = True
+
+    # Becomes
+
+    def pairwise(lst):
+        for i in range(len(lst)-1):
+            yield lst[i], lst[i+1]
+
+    is_ascending = all(l < r for l,r in pairwise(seq))
+
+Here all returns True if all elements of an iterable respect a given
+condition and pairwise is used to get a sliding window of two elements.
+
 More theoretical bases
 ----------------------
 
+When first defining the bricks of functional programming we made a lot of
+comparisons with mathematics. This was no coincidence. Forcing our tools to
+behave according to mathematical principles allows as to reason mathematically
+about them.
+
+This doesn't only mean that one can reason about programs without having an
+actual running computer to try things out, that also means that we can have
+mathematical certitudes about the transformations that occur.
+
+Having your process formally proved isn't just an assurance is quality, it is
+also a guarantee that your program won't ever have a bug (in the scope of the
+study of course).
+
+Monoids, monads, type and category theory are cool things too, and very deep
+too. Of course you can go and use functional programming without actively
+dealing with those but if you want it to be as profitable as possible then
+you will have to confront it someday.
 
 The counterparts of Functional Programming
 ==========================================
 
-Performance
------------
+Let's conclude on the counterparts. The first one is performance. Of course
+as we seen many arguments against performance in functional programming don't
+stand, but truth is that at some point your beautiful abstraction will have
+to get converted into machine code and fiddling with bytes is hard.
 
-Another way of thinking programming
------------------------------------
+Also, it is a totally different way of thinking. This can be a problem when
+programming whith other people that may not share your point of view on
+program designs. This can also be an issue when programming with a language
+that is not at all thought functionally (lack of lambdas, closures, type
+checking, functional constructs).
+
+But in the end I think that knowing functional programming is worth the time
+spent learning it. At the very least it should let you see problems under
+other angles.
+
+Some links to conclude
+======================
+
+To the links that I already spread into the article I would add:
+
+
+`Abstracting control flow
+<http://hackflow.com/blog/2013/10/08/abstracting-control-flow/>`_
+
+`The curse of the excluded middle 
+<http://queue.acm.org/detail.cfm?ref=rss&id=2611829>`_ which is also a great
+introduction to monads.
