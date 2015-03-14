@@ -761,6 +761,8 @@ similar to the mathematic definition of the Fibonacci sequence. We're not
 dealing with the problem of temporary values at all, we just declare what we
 want it's value to be in each case.
 
+**Stop thinking in steps, start thinking in transformations**
+
 Allow me to take an example from the excellent post `Why Every Language Needs
 Its Underscore
 <http://hackflow.com/blog/2014/06/22/why-every-language-needs-its-underscore/>`_
