@@ -743,13 +743,13 @@ Take the Fibonacci example:
 
 
     # With tail recursion
-    def fibonacci(n, a=0, b=1):
+    def fibonacci(n, prev=0, curr=1):
         if n == 0:
-            return a
-        return fibonacci(n-1, b, a+b)
+            return prev
+        return fibonacci(n-1, curr, prev+curr)
 
 Not only is the code more concise in functional style, it is also blazzingly
-similar to the mathematic definition of the fibonacci sequence. We're not
+similar to the mathematic definition of the Fibonacci sequence. We're not
 dealing with the problem of temporary values at all, we just declare what we
 want it's value to be in each case.
 
