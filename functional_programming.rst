@@ -773,11 +773,13 @@ from Alexander Schepanovski:
 
     # Becomes
 
+    is_ascending = all(l < r for l,r in pairwise(seq))
+
+    # With
+
     def pairwise(lst):
         for i in range(len(lst)-1):
             yield lst[i], lst[i+1]
-
-    is_ascending = all(l < r for l,r in pairwise(seq))
 
 Here all returns True if all elements of an iterable respect a given
 condition and pairwise is used to get a sliding window of two elements.
