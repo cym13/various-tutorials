@@ -526,6 +526,9 @@ beautiful than a for loop.
 That way of writing things hides the real meaning of the action: applying
 double to an array.
 
+**Any time you need to transform a list into another list,
+map is there for you**
+
 Another function with the same properties of map is filter. Filter does what
 it says it does, it takes a function and a list and filters the list
 returning only the elements that corresponds to a positive return value of the
@@ -537,6 +540,9 @@ function passed as argument.
         return True if n % 2 == 0 else False
 
     filter(is_even, [1, 2, 3, 4, 5]) == [2, 4]
+
+**Any time you need to select only some elements from a list,
+filter is there for you**
 
 The last one is reduce that we already used once. Reduce takes a function and
 a list of arguments and combines the arguments two by two with the function to
@@ -556,6 +562,9 @@ Other programming languages have different names for these functions, reduce
 is often called foldl or fold-left in what case it comes with its counterpart
 foldr or fold-right. This is the same as reduce but it operates from left to
 right.
+
+**Any time you need to transform a list into a single object
+reduce is there for you**
 
 Together these functions describe a very common design pattern to manipulate
 data: filter-map-reduce
