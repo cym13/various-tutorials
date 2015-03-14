@@ -743,10 +743,10 @@ Take the Fibonacci example:
 
 
     # With tail recursion
-    def fibonacci(n, prev=0, curr=1):
+    def fibonacci(n, curr=0, next=1):
         if n == 0:
-            return prev
-        return fibonacci(n-1, curr, prev+curr)
+            return curr
+        return fibonacci(n-1, next, curr+next)
 
 Not only is the code more concise in functional style, it is also blazzingly
 similar to the mathematic definition of the Fibonacci sequence. We're not
