@@ -575,13 +575,13 @@ more importance when dealing with parallelisation.
 
 Remember that we are only using functions that have no state whatsoever, so
 running them concurrently is the easiest thing of the world! For example, in
-the programming language Erlang, each function is run concurrently by default
+the programming language Erlang, each function runs concurrently by default
 so any function can be replaced at runtime without any second-thought.
 
 Furthermore map and filter propose transformations that are very easy to run
 in parallel over the whole array, that's why filter-map-reduce became a
 standard paradigm of big data, it could be run massively in parallel even on
-different computers and still reduced to a single result at the end.
+different computers and still be reduced to a single result at the end.
 
 To do that in python you want to see the map method of multiprocessing.Pool
 and its variants which implements a concurrent map.
@@ -673,28 +673,28 @@ Ok, there is no reason in python not to use classic generators, but I think
 that this was a neat example to demonstrate closures. The way such things are
 treated in programming languages with no side effect like haskell is through
 monads which are a really cool thing but are too wide a subject to fit in
-such an introduction. Just remember that they are use to rescrict unpure
+such an introduction. Just remember that they are used to rescrict unpure
 things within known scope without allowing them to mix with pure stuff.
 
 Easier unit testing!
 --------------------
 
-Unit testing is great. It forbids regressions and allow many programmers to
+Unit testing is great. It forbids regressions and allows many programmers to
 define interfaces and then work separately while keeping the whole code
 coherent. But is not something that is as wildely used as one could think.
 And if your project is using unit testing, answer honestly this question: is
 there not a single function that you decided not to write tests for?
-Why is that ?  Sure, programmers are lazy animals and don't like writting
+Why is that? Sure, programmers are lazy animals and don't like writting
 dead code but they also are rational so why aren't they doing more unit
 testing?
 
 My opinion is that most of the time is is just too hard to do. Unit testing
 object oriented methods and stateful objects is only possible by mocking the
 anticipated environment in which the object will be called. Moreover theses
-programming styles encourages long and complex functions which result in many
+programming styles encourage long and complex functions which result in many
 corner cases.
 
-By encouraging short, independant functions functional programming is well
+By encouraging short, independant functions, functional programming is well
 adapted to unit testing which pushes code safety even further.
 
 By using pure functions a whole class of errors just disappear. It's not that
@@ -721,7 +721,6 @@ Take the Fibonacci example:
 
         if n == 0:
             return 0
-
         if n == 1:
             return 1
 
@@ -796,11 +795,11 @@ This doesn't only mean that one can reason about programs without having an
 actual running computer to try things out, that also means that we can have
 mathematical certitudes about the transformations that occur.
 
-Having your process formally proved isn't just an assurance is quality, it is
+Having your process formally proved isn't just an assurance of quality, it is
 also a guarantee that your program won't ever have a bug (in the scope of the
 study of course).
 
-Monoids, monads, type and category theory are cool things too, and very deep
+Monoids, monads, type and category theories are cool things, and very deep
 too. Of course you can go and use functional programming without actively
 dealing with those but if you want it to be as profitable as possible then
 you will have to confront it someday.
