@@ -5,7 +5,7 @@ A Reasonable Introduction to Functional Programming
 Introduction
 ============
 
-I have a friend that is great at programming. I have always like talking with
+I have a friend that is great at programming. I have always liked talking with
 him about programming, design and paradigms because he has quite an insight
 on these topics and an interesting experience of C, C++ and python among
 other languages. But he never used any functional language, and I kept teasing
@@ -35,7 +35,7 @@ and it renders very well the troubled relation that we have with functions),
 D (because it's a good language that has many possibilities such as
 restricting yourself to using pure functions and immutable data).
 
-As always when I hesitate, I'll go with python3. "Oh man, python is not
+As always when I hesitate, I'll go with Python3. "Oh man, python is not
 explicitely typed, is as mutable as one can be, lacks most common
 functional functions and Guido doesn't like functional programming at all!"
 
@@ -47,7 +47,7 @@ So let's start!
 Why should one care?
 ====================
 
-This is the most important question. Why should one bother reading all that
+This is the most important question. Why should you bother reading all that
 stuff anyway? Scott Wlaschin wrote a very interesting article about that
 titled `Is your programming language unreasonable?
 <http://fsharpforfunandprofit.com/posts/is-your-language-unreasonable/>`_
@@ -76,7 +76,7 @@ What if I show you the whole code?
     do_something(x)
     y = x-1
 
-So here, not only did we chage the value of x, we also changed it's type and
+So here, not only did we change the value of x, we also changed it's type and
 then we are using this type as an integer (False is equal to 0) so y finally
 equals -1.
 
@@ -118,12 +118,12 @@ code like Lisp or Smalltalk were tagged "to slow to be useful" and mostly
 forgotten.
 
 Imperative programming made it's time, but the lack of good scoping tools
-made it difficult to reason about how data was processed: there was too many
+made it difficult to reason about how data was processed: there were too many
 moving parts.
 
 Object-Oriented Programming offered a way to handle this problem by
-encapsulating the moving parts into objects. That way, it was still moving as
-hell but we could manipulate the moving parts as a whole.
+encapsulating the moving parts into objects. That way, it was still moving
+like hell but we could manipulate the moving parts as a whole.
 
 That worked quite well compared to imperative programming, but as the
 examples above show very well, hiding complexity is not reducing it.
@@ -141,7 +141,7 @@ We will start our journey by stating some simple, fundamental style rules.
 Immutability
 ------------
 
-As we told before, the ability to change the value of something after it's
+As we said before, the ability to change the value of something after it's
 been declared is a moving part that introduces complexity. It may seem mad,
 but let's decide that we won't ever change the value of a variable.
 
@@ -169,8 +169,8 @@ Actually, most of those properties are consequences of our choice of
 immutability: what would a function that does not return a value do if it
 can't change the state of its arguments? Why would a function that cannot
 change the state of anything need to act outside its scope? And for a
-function not to return always the same value it would need some notion of an
-internal state that would be changed between calls.
+function not to always return the same value for the same arguments it would
+need some notion of an internal state that would be changed between calls.
 
 So with our hypothesis of immutability we can see that pure functions are
 logical consequences.
@@ -196,7 +196,7 @@ example are not pure functions, they return values that are not garanted to
 be always the same and they modify things out of their scope.
 
 We will have to compose with such difficulties but the key point is here to
-limit as much as possible their possible impact.
+limit as much as possible their impact.
 
 Recursion
 ---------
@@ -233,8 +233,16 @@ Ok, so let me say this straight:
 
 **Your example is pure shit.**
 
-I'm quite sure you coded a factorial or a Fibonacci function. It is pure
-shit.
+I'm quite sure you coded a factorial or a Fibonacci function. Something like:
+
+.. code:: python
+
+    def factorial(n):
+        if n == 0:
+            return 1
+        return n * factorial(n-1)
+
+It is pure shit.
 
 It is recursion, okay. And it is pure, that's cool. But it has a *huge*
 space (memory) complexity in O(n) compared to its time complexity (also
@@ -242,7 +250,7 @@ almost O(n)).
 
 It's okay, your prefer loops after all and you were always told to avoid
 recursion because of this problem of space complexity. It is a problem
-inherent to recursion, you could'nt do better, that's why functional
+inherent to recursion, you couldn't do better, that's why functional
 programming is so useless.
 
 Well, I'd like to prove to you that all of this is false with a little
@@ -250,7 +258,7 @@ example.
 
 Let's say that we don't have any way to add two numbers. We want to create a
 function add(n, m) that takes two numbers and returns the sum of the two.
-The only primitive we have is a function inc(n) that takes a number and
+The only primitive we have is a function inc(n) that takes a number n and
 returns n+1.
 
 .. code:: python
@@ -260,7 +268,7 @@ returns n+1.
 
 How would you design the add function ?
 
-There are two way to do it. Here is the first.
+There are two main ways to do it. Here is the first.
 
 .. code:: python
 
@@ -287,7 +295,7 @@ work it out for add(8, 5):
     inc(12)
     13
 
-The number of lines show the time complexity, the length of lines show the
+The number of lines shows the time complexity, the length of lines shows the
 space complexity. Each grow in O(n).  This is similar to what you first did
 with your factorial-like example. As the function cannot have any state it
 manages complexity by stacking values.
@@ -324,8 +332,11 @@ one. However, we can see that space complexity never actually change, it is
 constant, in O(1).
 
 This recursion is designed so that it never actually stacks data. It is
-called **tail recursion** and it was theoretically showed that it is always
+called **tail recursion** and it was theoretically shown that it is always
 possible to write such a recursion.
+
+(As a side note, it was also shown that any loop can be transformed into a
+recursion and inversely.)
 
 Let's see how to do it for the factorial example:
 
@@ -338,7 +349,7 @@ Let's see how to do it for the factorial example:
 
 See? Not that hard isn't it?
 
-It should be noticed that in many languages that are functional
+It should be noted that in many languages that are functional
 programming-oriented recursions are automatically optimised into tail
 recursions at compile time. This is not the case in python.
 
@@ -351,12 +362,12 @@ languages, by what I mean that you can assign a number as value to a variable
 but you usually can't assign a function as value to a variable.
 
 Languages that doesn't treat functions differently from other data are said
-to have **High-order functions**. This is an important property that will
+to have **Higher-order functions**. This is an important property that will
 allow us to pass functions as arguments, to build functions on the fly etc...
 
 Lambda functions are anonymous functions ; functions that are created as data
 without being assigned a name. In python, the two following syntax are alwost
-equivalent (their differences doesn't have any kind of impact at our level):
+equivalent (their differences doesn't have any impact at our level):
 
 .. code:: python
 
@@ -367,7 +378,7 @@ equivalent (their differences doesn't have any kind of impact at our level):
 
 We will make a heavy use of those from now on.
 
-Notice that lambdas are linked to another property of the language: the
+Note that lambdas are somehow linked to another property of the language: the
 ability to declare functions inside other functions:
 
 .. code:: python
@@ -381,11 +392,14 @@ ability to declare functions inside other functions:
 
     double(5) == 10
 
+This will prove very useful later when discussing closures.
+
 Side effects of Functional Programming
 ======================================
 
-Also functional programming do not have side effects on the runtime
-environment, is has *huge* side effects on the way one programs.
+Functional programming do not have side effects on the runtime environment,
+but is has *huge* side effects on the way one programs and on the properties
+of such programs!
 
 Easier composition!
 -------------------
@@ -403,7 +417,11 @@ discuss later:
     def chain(*functions):
         return reduce(lambda f,g: (lambda *x: g(f(*x))), functions)
 
-While not perfect, this function acts like the pipe "|" of unix shells, it
+It is ok not to understand it yet, you can always come back at the end. The
+point of this particular function is to illustrate a concept that is not
+dependant of its implementation.
+
+While not perfect, this function acts like the pipe "|" of Unix shells, it
 chains function and returns a function that combines the others:
 
 .. code:: python
@@ -416,10 +434,10 @@ chains function and returns a function that combines the others:
 
     my_fun(5) == 33
 
-The parallel with unix shells was not accidental, everything that is good in
-the unix philosophy ("Build little programs that do only one thing but do it
-well and combines easily with others") is true here. Piping data from one
-program to another has proved to be a very good way to deal with complexity,
+The parallel with Unix shells was not accidental, everything that is good in
+the Unix philosophy ("Build little programs that do only one thing but do it
+well and combine easily with others") is true here. Piping data from one
+program to another has proved to be a very good way to handle complexity,
 that's why command-line utilities are still used today.
 
 Furthermore, remark that we are being lazy here. If we want to describe some
@@ -467,7 +485,7 @@ Another way to compose things is by wrapping them together:
         _ham = lambda : ["ham"]
         return sandwich(cheese(_ham()))
 
-    # The same thing using python's decorator syntax
+    # The same wrapping using python's decorator syntax
     @sandwich
     @cheese
     def ham():
