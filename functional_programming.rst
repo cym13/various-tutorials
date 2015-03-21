@@ -550,12 +550,13 @@ produce a single value as result. It operates from right to left.
 
 .. code:: python
 
-    from functools imports reduce
+    from functools import reduce
+    from operator  import add
 
-    reduce(sum, [1, 2, 3, 4, 5]) == reduce(sum, [3, 3, 4, 5])
-                                 == reduce(sum, [6, 4, 5])
-                                 == reduce(sum, [10, 5])
-                                 == reduce(sum, [15])
+    reduce(add, [1, 2, 3, 4, 5]) == reduce(add, [3, 3, 4, 5])
+                                 == reduce(add, [6, 4, 5])
+                                 == reduce(add, [10, 5])
+                                 == reduce(add, [15])
                                  == 15
 
 Other programming languages have different names for these functions, reduce
