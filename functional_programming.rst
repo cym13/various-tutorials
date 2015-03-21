@@ -844,6 +844,10 @@ To the links that I already spread into the article I would add:
 `Abstracting control flow
 <http://hackflow.com/blog/2013/10/08/abstracting-control-flow/>`_
 
-`The curse of the excluded middle 
-<http://queue.acm.org/detail.cfm?ref=rss&id=2611829>`_ which is also a great
-introduction to monads.
+`The curse of the excluded middle
+<http://queue.acm.org/detail.cfm?ref=rss&id=2611829>`_
+which is also a great introduction to monads.
+
+`fn.py: enjoy FP in python
+<https://github.com/kachayev/fn.py>`_
+a good functional programming library in python.
