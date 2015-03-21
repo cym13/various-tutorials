@@ -536,10 +536,10 @@ function passed as argument.
 
 .. code:: python
 
-    def is_even(n):
+    def even(n):
         return True if n % 2 == 0 else False
 
-    filter(is_even, [1, 2, 3, 4, 5]) == [2, 4]
+    filter(even, [1, 2, 3, 4, 5]) == [2, 4]
 
 **Any time you need to select only some elements from a list,
 filter is there for you**
@@ -600,16 +600,17 @@ comprehensions:
 
 .. code:: python
 
-    inc     = lambda n: n+1
-    is_even = lambda n: True if n%2==0 else False
+    inc  = lambda n:   n+1
+    even = lambda n:   True if n%2==0 else False
+    add  = lambda a,b: a+b
 
-    transform = chain(partial(filter, is_even),
+    transform = chain(partial(filter, even),
                       partial(map,    inc),
-                      partial(reduce, sum))
+                      partial(reduce, add))
 
     transform(range(5)) == 8
 
-    sum(inc(n) for n in range(5) if is_even(n)) == 8
+    sum(inc(n) for n in range(5) if even(n)) == 8
 
 Easier laziness and streams!
 ----------------------------
