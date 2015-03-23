@@ -681,11 +681,16 @@ mutable section:
         return print_even_numbers()
 
 Ok, there is no reason in python not to use classic generators, but I think
-that this was a neat example to demonstrate closures. The way such things are
-treated in programming languages with no side effect like haskell is through
-monads which are a really cool thing but are too wide a subject to fit in
-such an introduction. Just remember that they are used to rescrict unpure
-things within known scope without allowing them to mix with pure stuff.
+that this was a neat example to demonstrate closures. Closures can also be
+used as a kind of function template: if you have a function that you wish to
+copy with little modification, maybe you should do a closure that will build
+each function adjusting internal parameters correctly.
+
+The way such actions are treated in programming languages with no side effect
+like haskell is through monads which are a really cool thing but are too wide
+a subject to fit in such an introduction. Just remember that they are used to
+rescrict unpure things within known scope without allowing them to mix with
+pure stuff.
 
 Easier unit testing!
 --------------------
