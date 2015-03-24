@@ -666,10 +666,14 @@ mutable section:
 .. code:: python
 
     def gen_numbers():
-        i = -1
+        global i      # Unfortunately, in python, we have to explicitely
+        i = -1        # specify that i is shared, hence "global i"
+
         def numbers():    # This is a closure, even if i was defined outside
-            i += 1        # the scope of 'numbers' it is still bound to its
-            return i      # instance and no other.
+            global i      # the scope of 'numbers' it is still bound to its
+            i += 1        # instance and no other.
+            return i
+
         return numbers
 
     print_even = chain(gen_number(),
@@ -678,7 +682,7 @@ mutable section:
 
     def print_even_numbers():
         print_even()
-        return print_even_numbers()
+        return print_even_numbers()   # Infinite recursion
 
 Ok, there is no reason in python not to use classic generators, but I think
 that this was a neat example to demonstrate closures. Closures can also be
