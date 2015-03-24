@@ -665,14 +665,12 @@ mutable section:
 
 .. code:: python
 
-    def gen_numbers():
-        global i      # Unfortunately, in python, we have to explicitely
-        i = -1        # specify that i is shared, hence "global i"
-
-        def numbers():    # This is a closure, even if i was defined outside
-            global i      # the scope of 'numbers' it is still bound to its
-            i += 1        # instance and no other.
-            return i
+    def gen_numbers():  # To share the state between multiple invocation
+        i = [-1]        # of the fonction we use the mutable argument trick
+                        # This is usually not needed in FP oriented languages
+        def numbers(*, i=i): # This is a closure, even if i was defined outside
+            i[0] += 1        # the scope of 'numbers' it is still bound to its 
+            return i[0]      # instance and no other.
 
         return numbers
 
