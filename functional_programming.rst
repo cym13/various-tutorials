@@ -665,14 +665,22 @@ mutable section:
 
 .. code:: python
 
-    def gen_numbers():  # To share the state between multiple invocation
+    def gen_numbers():  # To share the state between multiple invocations
         i = [-1]        # of the fonction we use the mutable argument trick
                         # This is usually not needed in FP oriented languages
         def numbers(*, i=i): # This is a closure, even if i was defined outside
-            i[0] += 1        # the scope of 'numbers' it is still bound to its 
+            i[0] += 1        # the scope of 'numbers' it is still bound to its
             return i[0]      # instance and no other.
 
         return numbers
+
+    fun1 = gen_number()
+    fun2 = gen_number()
+    fun1() # 0
+    fun1() # 1
+    fun2() # 0
+    fun2() # 1
+    fun1() # 2
 
     print_even = chain(gen_number(),
                        double,
@@ -680,7 +688,7 @@ mutable section:
 
     def print_even_numbers():
         print_even()
-        return print_even_numbers()   # Infinite recursion
+        return print_even_numbers()   # Infinite loop to prints all even numbers
 
 Ok, there is no reason in python not to use classic generators, but I think
 that this was a neat example to demonstrate closures. Closures can also be
