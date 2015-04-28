@@ -344,7 +344,7 @@ Let's see how to do it for the factorial example:
 
     def factorial(n, accumulator=1):
         if n == 0:
-            return 1
+            return accumulator
         return factorial(n-1, accumulator*n)
 
 See? Not that hard isn't it?
