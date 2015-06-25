@@ -533,6 +533,45 @@ that every class should implement and attributes that every class should
 have, such as __dict__ in python that gives the dictionary representation of
 an object.
 
+A point on the vocabulary
+=========================
+
+So, all we had so far were regular lists, functions, variables and
+dictionaries. Where are all those magical class, objects, methods, attributes
+and so on?
+
+The fact is that those are not magical at all. An object is an abstract
+concept ; it is the group of things that forms a coherent set. A specific set
+of data in memory that implements an object is called an instance.  A class
+is the structural convention of how we represent a specific kind of object.
+It is a map of how to build (instantiate) an object.
+
+A function that is linked to an object is called a method. That's all. It is
+a regular function (at least in our system) but it is useful to have a name
+for that kind of functions, and method it is.
+
+A function that acts on a class can be considered a method too. After all, it
+is part of the family of functions that are bound to something. But as they
+are effective on any object of the class we give them a special name: a class
+method.
+
+In the same way, a variable that is linked to an object is called an
+attribute. One can access attributes directly, but in many languages like
+java it means that you can't change how the object is implemented afterward.
+That's why, in java or C++, one uses special functions to get or set
+attributes. In python you have a system of properties: you can transparently
+put a function in place of an attribute in order to change the inner
+structure without breaking any code.
+
+We didn't really talk about constructors and destructors. Those are the name
+of the methods used to create or destroy an instance. In most language they
+are called automatically, but that is just syntaxic sugar like most
+"object-oriented features".
+
+Ok, I'll admit that this section may be a little confusing, just remember
+that everything is easy and that you can code it in a few lines, it will be
+easier.
+
 Conclusion
 ==========
 
