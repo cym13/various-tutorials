@@ -12,7 +12,7 @@ messy.
 
 We first need a subject, so let's talk about cats. That's not because animals
 are the classical subject for object oriented programming, but mostly because
-they are juste damn too cute.
+they are just damn too cute.
 
 First approach
 ==============
