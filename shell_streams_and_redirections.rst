@@ -214,12 +214,12 @@ indeed equivalent:
 
 .. code:: bash
 
-    $ xargs ls -h <<EOF
+    $ xargs ls -l <<EOF
     . abc
     . bcd
     . cde
     . EOF
     ...
 
-    $ ls -h abc bcd cde
+    $ ls -l abc bcd cde
     ...
