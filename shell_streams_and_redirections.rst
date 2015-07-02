@@ -204,7 +204,7 @@ But the best would be to do:
 .. code:: bash
 
     # Master: "Don't solve the problem, find another one"
-    $ ls | grep a | xargs ls -h
+    $ ls | grep a | xargs ls -l
     ...
 
 
