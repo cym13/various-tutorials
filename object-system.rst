@@ -2,6 +2,19 @@
 Let's build an object system!
 =============================
 
+After-thougt warning
+--------------------
+
+If you are seeking a read-only article that will expose how things work in
+reality, you are at the wrong place. Honestly, I think that if you fully
+understand everything just by reading this, you didn't have anything to learn
+in the first place.
+
+This is a story of experimentation. It is meant as a guide to
+experimentation, for you to try your own things and come with your own
+conclusions with only a little push of mine. I can't (and wouldn't) force you
+to try those things while reading, but I sure advise you to do so.
+
 Introduction
 ============
 
@@ -9,6 +22,7 @@ Hey, I sort of feel like building an object system, so let's do it together!
 It will be in python for a high-level language is well suited to that kind of
 experimentations. And as this is somewhat improvised, I hope it won't be too
 messy.
+
 
 We first need a subject, so let's talk about cats. That's not because animals
 are the classical subject for object oriented programming, but mostly because
