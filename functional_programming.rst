@@ -21,7 +21,7 @@ is how to do recursion and here is a map and a filter, now go programming son!"
 Functions and constructs usualy shown is tutorials are **consequences** and
 should not be presented as the essence of functional programming. Would you
 teach a newcommer about Object Oriented programming by showing him the
-Commander Design Pattern and how to write Getters and Setters? Or would you
+Command Design Pattern and how to write Getters and Setters? Or would you
 start by explaining what problem we are trying to solve with this tools?
 
 So here it is. This is what I consider a good introduction to Functional
