@@ -7,7 +7,7 @@ Introduction
 
 I have a friend that is great at programming. I have always liked talking with
 him about programming, design and paradigms because he has quite an insight
-on these topics and an interesting experience of C, C++ and python among
+on such topics and an interesting experience of C, C++ and python among
 other languages. But he never used any functional language, and I kept teasing
 him on that point, so when he told me that he was actually considering
 learning a bit about functional programming I decided to find the perfect
@@ -15,8 +15,8 @@ tutorial.
 
 Guess what? I found nothing.
 
-Oh, well, I did find things but it was always doing things in reverse: "Here
-is how to do recursion and here is a map and a filter, now go programming son!"
+Oh, well, I did find things but always doing things in reverse: "Here is how
+to do recursion and here is a map and a filter, now go programming son!"
 
 Functions and constructs usualy shown is tutorials are **consequences** and
 should not be presented as the essence of functional programming. Would you
