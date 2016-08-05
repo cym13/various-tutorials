@@ -165,7 +165,7 @@ Constructor
     mew(nyoron)
     #> Nyoron mews!
 
-Shit, we forgot to change Nyoron's mew... But how can we do it without
+Shit, we forgot to change Nyoron's mewing... But how can we do it without
 knowing how it is implemented? We need a special function for that.
 
 .. code:: python
