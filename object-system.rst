@@ -248,9 +248,9 @@ trust me, you could do (in python):
 Layers of abstraction: comeback
 ===============================
 
-Notice that we lost a bit of portability by using the dictionary directly: if
+Note that we lost a bit of portability by using the dictionary directly: if
 we want to change the internal name for mewing, we can't without changing all
-the calls to that method.
+calls to that method.
 
 This is easily solved with a method that we saw before.
 
@@ -284,7 +284,7 @@ This is easily solved with a method that we saw before.
         cat[attr_name] = value
 
     # Some specific functions, that's just syntactic sugar
-    # Notice that as we don't know the function, we take every precaution
+    # Note that as we don't know the function, we take every precaution
     def mew(cat):
         return getatt(cat, 'mew')()
 
@@ -517,7 +517,7 @@ error, that's okay, it just means that it wasn't the right object.
 This strategy is known as duck-typing: "If it floats and quacks as a duck, it
 may not be a duck but it sure is close enough for it to be my diner". This
 powerful strategy is not without link with the java adage "program to an
-interface, not an implementation". I say java because it wis popularised in
+interface, not an implementation". I say java because it was popularised in
 this context, but it really is a good general advice.
 
 Subclassing is a very important feature of object oriented programming, and
