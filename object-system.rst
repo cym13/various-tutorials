@@ -130,9 +130,8 @@ can't know in advance how to make a cat mew... Let's solve this:
     def purr(cat):
         cat[5](cat[2])
 
-    kitty = [3, "Kitty", "blue", "russian blue", default_mew, default_purr]
-
-    nyoron = [2, "Nyoron", "white", "bobtail", nyoron_mew, default_purr]
+    kitty  = [3, "Kitty",  "blue",  "russian blue", default_mew, default_purr]
+    nyoron = [2, "Nyoron", "white", "bobtail",      nyoron_mew,  default_purr]
 
     mew(kitty)
     #> Kitty mews!
@@ -158,7 +157,7 @@ Constructor
         cat = [age, name, color, breed, default_mew, default_purr]
         return cat
 
-    kitty  = make_cat(3, "Kitty", "blue", "russian blue")
+    kitty  = make_cat(3, "Kitty",  "blue",  "russian blue")
     nyoron = make_cat(2, "Nyoron", "white", "bobtail")
 
     mew(kitty)
@@ -178,7 +177,7 @@ knowing how it is implemented? We need a special function for that.
     def change_mew(cat, new_mew):
         cat[4] = new_mew
 
-    kitty  = make_cat(3, "Kitty", "blue", "russian blue")
+    kitty  = make_cat(3, "Kitty",  "blue",  "russian blue")
     nyoron = make_cat(2, "Nyoron", "white", "bobtail")
 
     def nyoron_mew(name):
@@ -193,8 +192,8 @@ knowing how it is implemented? We need a special function for that.
 
 That's better! Now we have a nice layer of abstraction and can change how a
 cat is represented without breaking everything. But we need a function to
-change or get the value of each attribute of our cat... Maybe the lists
-aren't the way to go.
+change or get the value of each attribute of our cat... Maybe lists aren't
+the way to go.
 
 Dictionaries
 ============
@@ -216,7 +215,7 @@ Dictionaries
                'purr':  default_purr}
         return cat
 
-    kitty  = make_cat(3, "Kitty", "blue", "russian blue")
+    kitty  = make_cat(3, "Kitty",  "blue",  "russian blue")
     nyoron = make_cat(2, "Nyoron", "white", "bobtail")
 
     def nyoron_mew(name):
@@ -272,7 +271,7 @@ This is easily solved with a method that we saw before.
                'purr':  default_purr}
         return cat
 
-    kitty  = make_cat(3, "Kitty", "blue", "russian blue")
+    kitty  = make_cat(3, "Kitty",  "blue",  "russian blue")
     nyoron = make_cat(2, "Nyoron", "white", "bobtail")
 
     # We will do generic functions. They are simple now, but give us the
@@ -352,7 +351,7 @@ than once, but if you know how to implement it if you need to.
 
     cat = make_cat_class()
 
-    kitty  = cat["new"](3, "Kitty", "blue", "russian blue")
+    kitty  = cat["new"](3, "Kitty",  "blue",  "russian blue")
     nyoron = cat["new"](2, "Nyoron", "white", "bobtail")
 
     def mew(cat):
@@ -473,7 +472,7 @@ that their default mewing is "Nya!". They also give luck.
     cat = make_cat_class()
     jap = make_japanese_cat_class()
 
-    kitty  = cat["new"](3, "Kitty", "blue", "russian blue")
+    kitty  = cat["new"](3, "Kitty",  "blue", "russian blue")
     nyoron = jap["new"](2, "Nyoron", "white")
 
     def mew(cat):
@@ -556,7 +555,7 @@ and so on?
 
 The fact is that those are not magical at all. An object is an abstract
 concept ; it is the group of things that forms a coherent set. A specific set
-of data in memory that implements an object is called an instance.  A class
+of data in memory that implements an object is called an instance. A class
 is the structural convention of how we represent a specific kind of object.
 It is a map of how to build (instantiate) an object.
 
